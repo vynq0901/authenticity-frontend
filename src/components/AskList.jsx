@@ -3,14 +3,17 @@ import { Link } from 'react-router-dom'
 import { BiPencil, BiTrash } from "react-icons/bi"
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import useModal from '../hooks/useModal'
 import portfolioApi from '../api/portfolioApi'
 import sellingApi from '../api/sellingApi'
+//components
+import Modal from './Modal'
 
 const AskList = () => {
     const user = useSelector(state => state.userLogin.userInfo)
-    const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [deletedAsk, setdeletedAsk] = useState('')
     const [asks, setAsks] = useState([])
+    const {show, toggleModal} = useModal()
     const getAsks = async () => {
         try {
             const response = await portfolioApi.getAsks(user.id)
@@ -26,7 +29,7 @@ const AskList = () => {
 
     const handleDeleteModal = (ask) => {
         setdeletedAsk(ask)
-        setOpenDeleteModal(!openDeleteModal)
+        toggleModal()
     }
 
     const handleDeleteAsk = async (id) => {
@@ -35,7 +38,7 @@ const AskList = () => {
             const newAsks = asks.filter(ask => ask.askInfo.askId !== deletedAsk.askInfo.askId)
             toast.success('Xoá thành công !!')
             setAsks(newAsks)
-            setOpenDeleteModal(false)
+            toggleModal()
         } catch (error) {
             
         }
@@ -86,23 +89,20 @@ const AskList = () => {
                 <div className="absolute left-1/2 top-1/3 text-sm underline font-semibold capitalize">Không có dữ liệu</div>
             }
         </table>
-        <div className={"absolute z-[52] bg-white rounded-md top-0 left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 p-4 " + (openDeleteModal ? '' : "hidden")}>
+        <Modal show={show} toggleModal={toggleModal}>
                 <div>
                     <div className="w-[100px] mx-auto">
                         <img src={deletedAsk.askInfo?.productImage} alt="product" />
                     </div>
-                    <p className="text-xs font-semibold">{deletedAsk.askInfo?.productName}</p>
+                    <p className="text-xs font-semibold text-center">{deletedAsk.askInfo?.productName}</p>
                     <p className="text-xs mx-auto my-1 border-gray-300 border-[1px] w-[fit-content] px-[2px] py-[1px] rounded-lg">Size: {deletedAsk.askInfo?.productSize}</p>
                 </div>
-                <p className="my-2 text-sm font-semibold">Bạn có chắc chắn xóa ?</p>
-                <div className="flex justify-between">
+                <p className="my-2 text-sm font-semibold text-center">Bạn có chắc chắn xóa ?</p>
+                <div className="flex justify-evenly">
                     <button className="border-[1px] font-semibold text-sm border-black px-4" onClick={handleDeleteModal}>Hủy</button>
                     <button className="bg-red-700 font-semibold text-sm text-white px-4" onClick={() => handleDeleteAsk(deletedAsk.askInfo.askId)}>Xóa</button>
                 </div>
-            </div>
-            {/* DELETE MODAL END */}
-          
-            <div className={"absolute top-0 right-0 left-0 bottom-0 z-[51] opacity-30 bg-black " + (openDeleteModal ? '' : "hidden")}></div>
+        </Modal>
     </div>
     )
 }

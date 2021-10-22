@@ -5,8 +5,10 @@ import { useParams } from 'react-router'
 import productApi from '../api/productApi'
 import portfolioApi from '../api/portfolioApi'
 import { getProduct } from '../redux/actions/productActions'
+import useModal from '../hooks/useModal'
 import { toast } from 'react-toastify'
 //components
+import Modal from '../components/Modal'
 import Navbar from '../components/Navbar'
 import BuySellContainer from '../components/BuySellContainer'
 import RecentlyViewed from '../components/RecentlyViewed'
@@ -14,13 +16,15 @@ import Footer from '../components/Footer'
 import Spinner from '../components/Spinner'
 
 
+
 const ProductDetail = () => {
     const [product, setProduct] = useState({})
     const [followingSize, setFollowingSize] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-    const [openSelectModal, setOpenSelectModal] = useState(false)
+    const {show, toggleModal} = useModal()
     const dispatch = useDispatch()
     const params = useParams()
+  
     const {slug} = params
     //CALL API
     const getProductDetails = async () => {
@@ -30,12 +34,11 @@ const ProductDetail = () => {
         setIsLoading(false)
         dispatch(getProduct(response))
       } catch (error) {
-          
+          console.log(error.response)
       }
     }
     
     const handleSizeChange = (size) => {
-        
         setFollowingSize(size)
     }
 
@@ -44,31 +47,26 @@ const ProductDetail = () => {
             const response = await portfolioApi.addFollowingProduct(product.id, followingSize)
             console.log(response)
             toast.success('Thêm thành công !')
-            setOpenSelectModal(false)
+            toggleModal(!show)
         } catch (error) {
             toast.error('Có lỗi xảy ra. Vui lòng thử lại sau')
             console.log(error.response)
         }
-    }
-
-    const handleOpenModal = () => {
-        setFollowingSize(null)
-        setOpenSelectModal(!openSelectModal)
-    }
+    }    
     useEffect(() => {
-        if (openSelectModal) {
+        if (show) {
             document.body.style.overflow = "hidden"
         } else {
             document.body.style.overflow = "unset"
         }
-    }, [openSelectModal])
+    }, [show])
     useEffect(() => {
         window.scrollTo(0, 0)
         getProductDetails()
     }, [params])
-
+    
     return (
-        <div className={"relative "}>
+        <div className="relative">
             <Navbar />
             {
                 isLoading ? <div className="mx-auto mt-20 min-h-screen">
@@ -76,7 +74,7 @@ const ProductDetail = () => {
                 </div>
                 :
                 <div className="max-w-[1100px] mx-auto mt-20">
-                    <HiHeart className="text-4xl border-[1px] block border-gray-300 p-2 ml-auto rounded-full cursor-pointer" onClick={handleOpenModal}/>
+                    <HiHeart className="text-4xl border-[1px] block border-gray-300 p-2 ml-auto rounded-full cursor-pointer" onClick={toggleModal}/>
                     {/* PRODUCT IMAGE AND BUY SELL */}
                     <div className="grid grid-cols-12 gap-20 mt-10">
                         <div className="col-span-7">
@@ -132,7 +130,7 @@ const ProductDetail = () => {
                     <h3 className="bg-black inline-block text-white py-1 px-2 mb-5">Xem gần đây</h3>
                     <RecentlyViewed />
                 </div>
-                <div className={"absolute z-[53] top-0 left-1/2 -translate-x-1/2 bg-white p-4 " + (openSelectModal ? '': 'hidden')}>
+                <Modal show={show} toggleModal={toggleModal}>
                     <h1 className="text-center mb-4 font-semibold">Thêm sản phẩm đang theo dõi</h1>
                     <p className="font-semibold mb-2">Chọn kích cỡ</p>
                    <div className="flex flex-wrap">
@@ -142,13 +140,11 @@ const ProductDetail = () => {
                         ))
                     }
                    </div>
-                   <div className="flex justify-around py-4">
-                       <button className="border-[1px] border-black py-1 w-[80px] text-sm font-semibold" onClick={handleOpenModal}>Hủy</button>
+                    <div className="flex justify-around py-4">
+                       <button className="border-[1px] border-black py-1 w-[80px] text-sm font-semibold" onClick={toggleModal}>Hủy</button>
                        <button  className={"bg-black text-white py-1 w-[80px] text-sm font-semibold " + (!followingSize ? "bg-gray-200" : "")} onClick={addFollowingProduct}>Xác nhận</button>
-
-                   </div>
-                </div>
-                <div className={"absolute top-[-100px] right-0 left-0 bottom-0 z-[52] opacity-30 bg-black " + (openSelectModal ? '' : "hidden")}></div>
+                    </div>
+                </Modal>
               </div>
             }
             <Footer />

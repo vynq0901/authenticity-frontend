@@ -15,6 +15,7 @@ import LoginPage from './pages/LoginPage'
 import ProtectedRoute from './routes/ProtectedRoute'
 import UserPage from './pages/UserPage'
 import SearchPage from './pages/SearchPage'
+import AdminPage from './pages/AdminPage'
 import NotFound from './pages/NotFound'
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
         <ProtectedRoute exact path="/buy/:slug" component={BuyPage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/search" component={SearchPage} />
+        <Route exact path="/admin" component={AdminPage} />
         <Route exact path="/:slug" component={ProductDetail} />
       </Switch>
       <ToastContainer autoClose={2000} hideProgressBar={true} />

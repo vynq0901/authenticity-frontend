@@ -5,13 +5,16 @@ import { useSelector } from 'react-redux'
 import portfolioApi from '../api/portfolioApi'
 import buyingApi from '../api/buyingApi'
 import { toast } from 'react-toastify'
-
+import useModal from '../hooks/useModal'
+//components
+import Modal from './Modal'
 
 const BidList = () => {
     const user = useSelector(state => state.userLogin.userInfo)
-    const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [deletedBid, setdeletedBid] = useState('')
     const [bids, setBids] = useState([])
+    const {show, toggleModal} = useModal()
+
     const getBids = async () => {
         try {
             const response = await portfolioApi.getBids(user.id)
@@ -27,7 +30,7 @@ const BidList = () => {
 
     const handleDeleteModal = (bid) => {
         setdeletedBid(bid)
-        setOpenDeleteModal(!openDeleteModal)
+        toggleModal()
     }
 
     const handleDeleteBid = async (id) => {
@@ -36,7 +39,7 @@ const BidList = () => {
             const newBids = bids.filter(bid => bid.bidInfo.bidId !== deletedBid.bidInfo.bidId)
             toast.success('Xoá thành công !!')
             setBids(newBids)
-            setOpenDeleteModal(false)
+            toggleModal()
         } catch (error) {
             
         }
@@ -86,8 +89,7 @@ const BidList = () => {
            <div className="absolute left-1/2 top-1/3 text-sm underline font-semibold capitalize">Không có dữ liệu</div>
            }
             </table>
-            {/* DELETE MODAL */}
-            <div className={"absolute z-[52] bg-white rounded-md top-0 left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 p-4 animate-modal-open " + (openDeleteModal ? '' : "hidden")}>
+            <Modal show={show}>
                 <div>
                     <div className="w-[100px] mx-auto">
                         <img src={deletedBid.bidInfo?.productImage} alt="product" />
@@ -100,10 +102,7 @@ const BidList = () => {
                     <button className="border-[1px] font-semibold text-sm border-black px-4" onClick={handleDeleteModal}>Hủy</button>
                     <button className="bg-red-700 font-semibold text-sm text-white px-4" onClick={() => handleDeleteBid(deletedBid.bidInfo?.bidId)}>Xóa</button>
                 </div>
-            </div>
-            {/* DELETE MODAL END */}
-          
-            <div className={"absolute top-0 right-0 left-0 bottom-0 z-[51] opacity-30 bg-black " + (openDeleteModal ? '' : "hidden")}></div>
+            </Modal>
           </div>
     )
 }

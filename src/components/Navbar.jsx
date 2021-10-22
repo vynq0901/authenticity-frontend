@@ -39,7 +39,7 @@ const Navbar = ({navbar, navlist ,logo, subLogo, home}) => {
                     <span className="ml-5">Sản phẩm</span>
                 </Link >
                 <Link to="/">
-                    <span className="ml-5">Trợ giúp</span>
+                    <span className="ml-5">Tin tức</span>
                 </Link>
                 {
                     user 
