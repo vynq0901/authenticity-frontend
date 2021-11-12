@@ -7,6 +7,7 @@ import portfolioApi from '../api/portfolioApi'
 import { getProduct } from '../redux/actions/productActions'
 import useModal from '../hooks/useModal'
 import { toast } from 'react-toastify'
+import {Helmet} from 'react-helmet'
 //components
 import Modal from '../components/Modal'
 import Navbar from '../components/Navbar'
@@ -15,7 +16,13 @@ import RecentlyViewed from '../components/RecentlyViewed'
 import Footer from '../components/Footer'
 import Spinner from '../components/Spinner'
 
-
+const checkExist = (arr, item) => {
+    let found = false
+    for (const obj of arr) {
+        if (obj._id === item._id) found = true
+    }
+    return found
+}
 
 const ProductDetail = () => {
     const [product, setProduct] = useState({})
@@ -49,8 +56,8 @@ const ProductDetail = () => {
             toast.success('Thêm thành công !')
             toggleModal(!show)
         } catch (error) {
-            toast.error('Có lỗi xảy ra. Vui lòng thử lại sau')
-            console.log(error.response)
+            toast.error(error.response.data.message)
+
         }
     }    
     useEffect(() => {
@@ -64,9 +71,32 @@ const ProductDetail = () => {
         window.scrollTo(0, 0)
         getProductDetails()
     }, [params])
-    
+
+    useEffect(() => {
+        if (product) {
+            if (Object.keys(product).length !== 0) {         
+                const storageItems = sessionStorage.getItem('viewedProduct')
+                let viewedProduct = JSON.parse(storageItems)
+                if (viewedProduct) {
+                    if (viewedProduct.length === 10) {
+                        viewedProduct.pop()
+                    }
+                    if (checkExist(viewedProduct, product) === false) {
+                        viewedProduct.unshift(product)
+                    }
+                    sessionStorage.setItem('viewedProduct', JSON.stringify(viewedProduct))
+                }
+              
+            }
+        }
+    }, [product])
+
     return (
-        <div className="relative">
+        <>  
+            <Helmet>
+                <title>{product.name}</title>
+            </Helmet>
+            <div className="relative">
             <Navbar />
             {
                 isLoading ? <div className="mx-auto mt-20 min-h-screen">
@@ -128,7 +158,7 @@ const ProductDetail = () => {
                 <div className="mb-5">
                     <hr className="border-t" />
                     <h3 className="bg-black inline-block text-white py-1 px-2 mb-5">Xem gần đây</h3>
-                    <RecentlyViewed />
+                    <RecentlyViewed currentProduct={product} />
                 </div>
                 <Modal show={show} toggleModal={toggleModal}>
                     <h1 className="text-center mb-4 font-semibold">Thêm sản phẩm đang theo dõi</h1>
@@ -149,6 +179,7 @@ const ProductDetail = () => {
             }
             <Footer />
         </div>
+        </>
     )
 }
 

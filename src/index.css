@@ -11,6 +11,10 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+.ck-editor__editable_inline {
+  max-height: 500px;
+  min-height: 300px;
+}
 
 @tailwind base;
 @tailwind components;
@@ -22,5 +26,8 @@ input[type=number] {
 }
 .sub-logo-text {
     @apply tracking-widest text-gray-400;
+}
+.toast-success {
+  @apply bg-green-700;
 }
 @tailwind utilities;

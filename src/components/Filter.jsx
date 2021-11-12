@@ -1,34 +1,28 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
+
+const categories = ['sneakers', 'streetwear']
+const brands = ['nike', 'adidas', 'jordan', 'vans', 'supreme']
+
 const Filter = ({filters, onFiltersChange}) => {
-    const categories = ['sneakers', 'streetwear']
-    const sneakerBrands = ['nike', 'adidas', 'jordan', 'vans']
-    const streetwearBrands = ['supreme']
+
     const handleCategoryChange = (category) => {
+        delete filters.brand
         onFiltersChange({
             ...filters,
             category: category
         })
     }
+
     const handleBrandChange = (brand) => {
+        delete filters.category
         onFiltersChange({
             ...filters,
             brand: brand
         })
     }
-    const renderCurrentCategoryBrand = () => {
-        if (filters.category === 'sneakers') {
-            sneakerBrands.map((brand, index) => (<li 
-                key={index} 
-                onClick={() => handleBrandChange(brand)} 
-                className="mb-1 cursor-pointer">
-                    <Link to={`/products?brand=${brand}`}>
-                        {brand.toUpperCase()}
-                    </Link>
-            </li>))
-        }
-    }
+ 
     return (
         <div className="col-span-2 text-sm font-semibold">
             <div className="mb-8">
@@ -37,7 +31,7 @@ const Filter = ({filters, onFiltersChange}) => {
                     {
                         categories.map((category, index) => <li key={index}
                                                                 onClick={() => handleCategoryChange(category)}
-                                                                className="mb-1 cursor-pointer">
+                                                                className={`mb-1 cursor-pointer ` + (filters.category && filters.category === category ? 'text-red-700' : '')}>
                                                                     <NavLink exact to={`/products?category=${category}`}>
                                                                         {category.toUpperCase()}
                                                                     </NavLink>
@@ -50,10 +44,10 @@ const Filter = ({filters, onFiltersChange}) => {
                 <p className="mb-3 underline">THƯƠNG HIỆU</p>
                 <ul>
                     {
-                      sneakerBrands.map((brand, index) => <li 
+                      brands.map((brand, index) => <li 
                         key={index} 
                         onClick={() => handleBrandChange(brand)} 
-                        className="mb-1 cursor-pointer">
+                        className={`mb-1 cursor-pointer ` + (filters.brand && filters.brand === brand ? 'text-red-700' : '')}>
                             <Link to={`/products?brand=${brand}`}>
                                 {brand.toUpperCase()}
                             </Link>

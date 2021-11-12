@@ -30,6 +30,7 @@ export const getUserByToken = (user) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
     delete axios.defaults.headers.common['Authorization']
+
     dispatch({ type: USER_LOGOUT })
 }
 

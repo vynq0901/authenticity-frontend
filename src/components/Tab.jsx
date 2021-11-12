@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useLocation, useRouteMatch } from 'react-router'
+import {  useRouteMatch } from 'react-router'
 
 
 const Tab = ({icon, tabName, description, path}) => {

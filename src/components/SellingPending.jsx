@@ -9,7 +9,6 @@ const SellingPending = () => {
     const getAsks = async () => {
         try {
             const response = await portfolioApi.getAskingPending(user.id)
-            console.log(response.data.orders)
             setOrders(response.data.orders)
         } catch (error) {
             

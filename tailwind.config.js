@@ -6,7 +6,8 @@ module.exports = {
     extend: {
       animation: {
         'success-check': 'grow 0.2s ease-in-out',
-        'modal-open': 'slideDown 0.4s ease-in-out'
+        'modal-open': 'slideDown 0.4s ease-in-out',
+        'slide-left': 'slideToLeft 0.5s forwards'
       },
       keyframes: {
         grow: {
@@ -16,6 +17,14 @@ module.exports = {
         slideDown: {
           '0%': { opacity: 0 },
           '100%': { opacity: 1 }
+        },
+        slideToLeft: {
+          from: {
+            right: '-300px'
+          }, 
+          to: {
+            right: 0
+          } 
         }
       }
     },

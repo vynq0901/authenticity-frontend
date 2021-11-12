@@ -19,7 +19,7 @@ const Navbar = ({navbar, navlist ,logo, subLogo, home}) => {
                 home ? 
                     <Link to="/" className="logo">
                         <span className={"tracking-widest " + (logo === '' ? 'text-red-700' : 'text-white')}>Authenti</span>
-                        <span className={"tracking-widest " + (subLogo === '' ? 'text-gray-400' : 'text-white')}>city</span>
+                        <span className={"tracking-widest " + (subLogo === '' ? 'text-gray-400' : 'text-white')}>city.</span>
                     </Link> 
                  :
                     <Link to="/" className="logo">
@@ -38,7 +38,7 @@ const Navbar = ({navbar, navlist ,logo, subLogo, home}) => {
                 <Link to="/products">
                     <span className="ml-5">Sản phẩm</span>
                 </Link >
-                <Link to="/">
+                <Link to="/news">
                     <span className="ml-5">Tin tức</span>
                 </Link>
                 {

@@ -55,7 +55,7 @@ const SearchBar = ({home}) => {
                 </div>
                 <input className="text-sm border-none outline-none w-96" placeholder="Tìm kiếm" type="text" onChange={handleKeywordChange} onKeyDown={handleEnter} onFocus={() => handleHideList(false)} />
             </div>
-            <div className={"absolute bg-white z-50 text-black  w-full shadow-lg " + (hide ? "hidden" : "")}>
+            <div className={"absolute bg-white z-50 text-black  w-full shadow-lg max-h-[200px] overflow-y-auto " + (hide ? "hidden" : "")}>
             {
                 results.map(product => (
                    <Link to={`/${product.slug}`} onClick={handleHideList}>

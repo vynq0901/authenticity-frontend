@@ -26,8 +26,8 @@ const SellingHistory = () => {
                 <tr className="text-left font-medium text-sm">
                     <th className="w-[300px] font-medium">Sản phẩm</th>
                     <th className="w-[150px] font-medium">Mã đơn hàng</th>
-                    <th className="w-[150px] font-medium">Ngày mua</th>
-                    <th className="w-[150px] font-medium">Giá mua</th>
+                    <th className="w-[150px] font-medium">Ngày bán</th>
+                    <th className="w-[150px] font-medium">Giá bán</th>
                     <th className="w-[150px] font-medium">Tình trạng</th>
                 </tr>
             </thead>

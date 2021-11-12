@@ -5,6 +5,10 @@ const portfolioApi = {
         const url = `/get-user-bids/${userId}`
         return axiosClient.get(url)
     },
+    getOrdersCount: () => {
+        const url = `/get-orders-count`
+        return axiosClient.get(url)
+    },
     getBuyingPending: (userId) => {
         const url = `/get-buying-pending/${userId}`
         return axiosClient.get(url)

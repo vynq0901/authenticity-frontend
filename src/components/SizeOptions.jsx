@@ -52,7 +52,7 @@ const SizeOptions = ({handleChangeSize, currentSize}) => {
                         <span>Chọn size </span>
                         <span>Bảng size</span>
                     </div>
-                    <ul className="mt-2 text-xs max-h-[300px] overflow-y-scroll none">
+                    <ul className="mt-2 text-xs max-h-[300px] overflow-auto none">
                         {
                             sizeSet.map((size, index) =>
                             <li 

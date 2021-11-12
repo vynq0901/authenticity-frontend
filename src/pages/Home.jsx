@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from '../redux/actions/authActions'
+import {Helmet} from 'react-helmet'
 //components
 import Navbar from '../components/Navbar'
 import Banner from '../components/Banner'
@@ -8,10 +11,11 @@ import PopularBrand from '../components/PopularBrand'
 import HomeCategories from '../components/HomeCategories'
 import Footer from '../components/Footer'
 import LatestNews from '../components/LatestNews'
-import NewRelease from '../components/NewRelease'
+
 
 const Home = () => {
-
+    const user = useSelector(state => state.userLogin.userInfo)
+    const dispatch = useDispatch()
     const [navBarTrans, setNavBarTrans] = useState('border-none bg-transparent')
     const [navListWhite, setNavListWhite] = useState('text-white')
     const [logoWhite, setLogoWhite] = useState('text-white')
@@ -38,22 +42,35 @@ const Home = () => {
         }
     }, [])
 
+    useEffect(() => {
+        if (user) {
+            if (user.role !== 'người dùng') {
+                dispatch(logout())
+                localStorage.removeItem('token')
+            }
+        }
+    }, [user])
+
     return (
-        <div className="homepage">
-            <Navbar navbar={navBarTrans} navlist={navListWhite} logo={logoWhite} subLogo={subLogoWhite} home={true} />
-            <Banner home={true}/>
-            <CategoriesBar />
-            <Carousel />
-            <div className="max-w-screen-lg my-0 mx-auto">
-                <PopularBrand />
-                <HomeCategories />
-                <div className="">
-                    <LatestNews />
-    
+        <> 
+            <Helmet>
+                <title>Trang chủ | Authenticity</title>
+            </Helmet>
+            <div className="homepage">
+                <Navbar navbar={navBarTrans} navlist={navListWhite} logo={logoWhite} subLogo={subLogoWhite} home={true} />
+                <Banner home={true}/>
+                <CategoriesBar />
+                <Carousel />
+                <div className="max-w-screen-lg my-0 mx-auto">
+                    <PopularBrand />
+                    <HomeCategories />
+                    <div className="">
+                        <LatestNews />
+                    </div>
                 </div>
+                <Footer />
             </div>
-            <Footer />
-        </div>
+        </>
     )
 }
 

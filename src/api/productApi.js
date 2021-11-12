@@ -28,7 +28,23 @@ const productApi = {
     searchProducts: (kw) => {
         const url = `/search?s=${kw}`
         return axiosClient.get(url)
-    }
+    },
+    getLastSale: (product, size) => {
+        const url = `/get-last-sale/${product}/${size}`
+        return axiosClient.get(url)
+    },
+    getAllBids: (product, size) => {
+        const url = `/get-size-bids/${product}/${size}`
+        return axiosClient.get(url)
+    },
+    getAllAsks: (product, size) => {
+        const url = `/get-size-asks/${product}/${size}`
+        return axiosClient.get(url)
+    },
+    getAllSale: (product, size) => {
+        const url = `/get-all-sale/${product}/${size}`
+        return axiosClient.get(url)
+    },
 }
 
 export default productApi

@@ -17,6 +17,14 @@ const Category = ({title, link, recent, category}) => {
             } else if ( category === 'collectibles') {
                 const response = await productApi.getNewestCollectibles()
                 setProducts(response.data)
+            } else {
+                const storageItem = sessionStorage.getItem('viewedProduct')
+                const viewedProduct = JSON.parse(storageItem)
+                let arr = []
+                for (const obj of viewedProduct) {
+                    arr.push(obj)
+                }
+                setProducts(arr)
             }
         } catch (error) {
             console.log(error.response)
@@ -24,6 +32,7 @@ const Category = ({title, link, recent, category}) => {
     } 
     useEffect(() => {
         getProducts()
+       
     }, [])
     return (
         <div className="w-full mt-5">
@@ -37,10 +46,10 @@ const Category = ({title, link, recent, category}) => {
                 {
                     products.map((product, index) => <Product 
                     key={index}
-                    name={product.name}
-                    price={product.averagePrice}
-                    image={product.images.smallImageUrl}
-                    slug={product.slug} 
+                    name={product?.name}
+                    price={product?.averagePrice}
+                    image={product?.images.smallImageUrl}
+                    slug={product?.slug} 
                     />)
                 }
             </div>

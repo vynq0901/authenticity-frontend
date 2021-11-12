@@ -27,8 +27,9 @@ const Login = ({toggleActive, onToggleActive}) => {
     }
     useEffect(() => {
         if (user) {
-            history.goBack()
+            if (user.role === 'người dùng')  history.goBack()
         }
+        
     }, [user])
     return (
         <form className={toggleActive === 2 ? "" : "hidden"} onSubmit={handleSubmit}>
@@ -38,7 +39,7 @@ const Login = ({toggleActive, onToggleActive}) => {
         <div>
             <input className="text-sm border-[1px] rounded-sm p-2 mb-2 w-full" placeholder="Mật khẩu" type="password" name="password" onChange={handleOnChange} />
         </div>
-        <button className="text-center text-xs w-full bg-red-700 text-white rounded-sm font-semibold py-2"> {loading ? <Spinner /> : <p>Đăng nhập</p>} </button>
+        <button className="text-center text-xs w-full bg-red-700 text-white rounded-sm font-semibold py-2"> {loading ? <Spinner borderColor={"border-white"} /> : <p>Đăng nhập</p>} </button>
         <div  className="text-xs mt-3 flex justify-between">
             <p>Chưa có tài khoản ? <span className="text-red-700 font-semibold underline cursor-pointer" onClick={() => onToggleActive(1)}>Đăng kí</span></p>
             <p className="text-red-700 font-semibold underline cursor-pointer">Quên mật khẩu</p>

@@ -26,10 +26,10 @@ const UserPage = () => {
             <Navbar />
             <div className="flex mt-16">
                 <TabContainer className="w-[20%]" user={user}>
-                <Tab icon={<FiUser className="text-[30px] mr-3" />} path='/account/info' tabName="Thông Tin" description="Thông tin của bạn" />
-            <Tab icon={<FiArchive className="text-[30px] mr-3" />} path='/account/buying' tabName="Mua" description="Thông tin đấu giá, các đơn hàng của bạn" />
-            <Tab icon={<GrMoney className="text-[30px] mr-3" />} path='/account/selling' tabName="Bán" description="Thông tin hoạt động bán sản phẩm của bạn" />
-            <Tab icon={<GrAddCircle className="text-[30px] mr-3" />} path='/account/following' tabName="Đang theo dõi" description="Thông tin các sản phẩm bạn theo dõi" />
+                    <Tab icon={<FiUser className="text-[30px] mr-3" />} path='/account/info' tabName="Thông Tin" description="Thông tin của bạn" />
+                    <Tab icon={<FiArchive className="text-[30px] mr-3" />} path='/account/buying' tabName="Mua" description="Thông tin đấu giá, các đơn hàng của bạn" />
+                    <Tab icon={<GrMoney className="text-[30px] mr-3" />} path='/account/selling' tabName="Bán" description="Thông tin hoạt động bán sản phẩm của bạn" />
+                    <Tab icon={<GrAddCircle className="text-[30px] mr-3" />} path='/account/following' tabName="Đang theo dõi" description="Thông tin các sản phẩm bạn theo dõi" />
                 </TabContainer>
                 <Switch>
                     <Route exact path="/account/info">

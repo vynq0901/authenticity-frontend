@@ -1,17 +1,39 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
+import newsApi from '../api/newsApi'
 
 const LatestNews = () => {
+    const [newses, setNewses] = useState([])
+    const getNewses = async () => {
+        try {
+            const response = await newsApi.getNewestNews()
+            setNewses(response.newses)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+    useEffect(() => {
+        getNewses()
+    }, [])
     return (
-        <div className="col-span-5">
+        <div className="col-span-5 my-10">
             <div className="flex justify-between mb-4">
-                <h2 className="font-semibold">Tin mới nhất</h2>
-                <p className="text-sm font-medium">Xem tất cả</p>
+                <h2 className="font-semibold text-xl">Tin mới nhất</h2>
+                <Link to="/news" className="text-sm font-medium">Xem tất cả</Link>
             </div>
-            <News />
-            <News />
-            <News />
-            <News />
-            <News />
+            {
+                newses.map(news => (
+                    <Link to={`/news/${news.slug}`} className="flex border-solid border-b-2 border-gray-200 mb-4 pb-2" key={news._id}>
+                        <div className="flex-1 rounded-lg overflow-hidden mr-6 h-[120]">
+                            <img src={news.thumbnail} alt={news.slug} className="h-full w-full" />
+                        </div>
+                       <div className="w-[80%] flex flex-col justify-between">
+                            <h1 className="font-semibold">{news.title}</h1>
+                            <h3 className="font-medium text-xs text-gray-500 ml-auto">{news.createdBy.name} - {news.createdAt.split('T')[0]}</h3>
+                       </div>
+                    </Link>
+                ))
+            }
         </div>
     )
 }
@@ -19,16 +41,6 @@ const LatestNews = () => {
 export default LatestNews
 
 
-//news components
-
-const News = () => {
-    return (
-        <div className=" border-solid border-b-2 border-gray-200 mb-4 pb-2">
-            <h1 className="font-semibold">That's 5 | Amyl and The Sniffers</h1>
-            <h3 className="font-medium text-xs text-gray-500">Admin - 09/14/2021</h3>
-        </div>
-    )
-}
 
 
 
