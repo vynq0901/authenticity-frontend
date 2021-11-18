@@ -36,7 +36,7 @@ const SupporterPage = () => {
     // }, [])
     useEffect(() => {
         if (!socket) {
-            const st = io.connect('http://localhost:5000')
+            const st = io.connect('https://authenticity-bend.herokuapp.com')
             setSocket(st)
         }
         if (socket) {
