@@ -38,7 +38,7 @@ const Chat = () => {
     }
     useEffect(() => {
         if (!socket) {
-            const st = io.connect('https://authenticity-fend.herokuapp.com')
+            const st = io.connect('https://authenticity-bend.herokuapp.com')
             setSocket(st)
         }
        
