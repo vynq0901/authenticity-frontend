@@ -12,7 +12,7 @@ export const login = (username, password) => async (dispatch) => {
         dispatch({ type: USER_LOGIN_SUCCESS, payload: response.user })
         localStorage.setItem("token", response.token)
     } catch (error) {
-        toast.error(error.response.data.message, {
+        toast.error(error.response?.data.message, {
             autoClose: 3000,
             hideProgressBar: true,
 

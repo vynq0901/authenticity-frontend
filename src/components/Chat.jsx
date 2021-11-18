@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import {BiChat, BiSend } from "react-icons/bi"
-
+import ScrollToBottom from 'react-scroll-to-bottom'
 //io
 
 
@@ -10,7 +10,6 @@ const Chat = () => {
     const [toggle, setToggle] = useState(false)
     const [socket, setSocket] = useState(null)
     const [connect, setConnect] = useState(false)
-    const [admin, setAdmin] = useState({})
     const [currentMessage, setCurrentMessage] = useState("")
     const [messages, setMessages] = useState([]) 
     const joinRoom = () => {
@@ -27,36 +26,42 @@ const Chat = () => {
                 isAdmin: false,
                 user: email,
                 message: currentMessage,
-                time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes()
+                time: new Date(Date.now()).toLocaleTimeString()
             }
             await socket.emit("send_message", messageData)
-            setMessages([...messages, {isAdmin: false, message: currentMessage}])
+            setCurrentMessage("")
+            setMessages([...messages, {isAdmin: false, message: currentMessage, time: new Date(Date.now()).toLocaleTimeString()}])
         }
     }
+    const handleEnter = (event) => {
+        if (event.key === 'Enter') sendMessage()
+    }
+    useEffect(() => {
+        if (!socket) {
+            const st = io.connect('http://localhost:5000')
+            setSocket(st)
+        }
+       
+    }, [socket])
     useEffect(() => {
         if (socket) {
             socket.on('receive_message', (data) => {
                 console.log(data)
                setMessages([...messages, {
                     isAdmin: true,
-                    message: data.message
+                    message: data.message,
+                    time: data.time
                }])
            })
         }
-    }, [socket])
-
-    useEffect(() => {
-        if (!socket) {
-            const st = io.connect('http://localhost:5000')
-            setSocket(st)
-        }
-     
-    }, [socket])
+    }, [messages, socket])
     return (
         <div className="fixed z-50  bottom-[100px] left-[40px]" >
-            <div className="p-3 rounded-full bg-red-700 cursor-pointer" onClick={() => setToggle(!toggle)}>
+            {
+                !toggle &&    <div className="p-3 rounded-full bg-red-700 cursor-pointer" onClick={() => setToggle(!toggle)}>
                 <BiChat className="text-white text-2xl" />
-            </div>
+                </div>
+            }
             {
                 toggle && <div className="border-red-700 h-[300px] absolute border-2 w-[300px] top-[-280px] left-full bg-white rounded-lg">
                         {
@@ -73,14 +78,29 @@ const Chat = () => {
                         }
                         {
                             connect && <div className="p-2 flex flex-col">
-                                            <div className="h-[250px] bg-pink-300 w-full">
+                                            <ScrollToBottom  className="h-[250px] w-full overflow-auto">
                                                 {
-                                                    messages.map(msg => <p>{msg.message}</p>)
+                                                    messages.length === 0 && <p className="text-center font-medium text-xs">Hãy để lại tin nhắn. Nhân viên sẽ phản hồi trong ít phút.</p>
                                                 }
-                                            </div>
+                                                {
+                                                     messages.map(msg => {
+                                                        if (msg.isAdmin) {
+                                                           return   <div className="text-xs font-medium  text-left  mb-2 break-all">
+                                                                        <p className="inline-block text-white bg-red-700 px-2 py-1 rounded-md mb-[2px] ">{msg.message}</p>
+                                                                        <p className="text-[10px] text-gray-400">{msg.time}</p>
+                                                                    </div>
+                                                        } else {
+                                                            return  <div className="text-xs font-medium text-right mb-2 break-all">
+                                                                        <p className="inline-block bg-gray-200 px-2 py-1 rounded-md mb-[2px]">{msg.message}</p>
+                                                                        <p className="text-[10px] text-gray-400">{msg.time}</p>
+                                                                    </div>
+                                                        }
+                                                    })
+                                                }
+                                            </ScrollToBottom>
                                              <div className="flex items-center">                                              
-                                                <input className="border-[1px] border-black flex-1 p-1 rounded-md text-sm mr-4" onChange={(event) => setCurrentMessage(event.target.value)}/>
-                                                <button onClick={sendMessage} className="text-white bg-red-700 p-1 text-sm font-semibold rounded-md"><BiSend className="inline-block mr-1" />Gửi</button>
+                                                <input className="border-[1px] border-black flex-1 p-1 rounded-md text-xs mr-2" value={currentMessage} onKeyDown={handleEnter} onChange={(event) => setCurrentMessage(event.target.value)}/>
+                                                <button onClick={sendMessage} disabled={currentMessage === ""} className={"text-white px-4 py-1 text-sm font-semibold rounded-md  " + (currentMessage === "" ? "bg-gray-300" : "hover:bg-red-800 bg-red-700")}><BiSend className="inline-block text-xl" /></button>
                                             </div>
                                         </div>  
                         }

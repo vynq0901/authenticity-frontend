@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import productApi from '../api/productApi'
 //components
-import Product from './Product'
+import Product from '../features/Product/components/Product'
 
 const Category = ({title, link, recent, category}) => {
     const [products, setProducts] = useState([])

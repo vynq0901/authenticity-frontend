@@ -1,36 +1,35 @@
-import { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { getUserByToken } from './redux/actions/authActions'
 import authApi from './api/authApi'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import {Helmet} from 'react-helmet'
-
+import { Helmet } from 'react-helmet'
+import FullSpinner from './components/FullSpinner'
 //routes
 import ProtectedRoute from './routes/ProtectedRoute'
 import StaffRoute from './routes/StaffRoute'
 import AdminRoute from './routes/AdminRoute'
 //pages
 import Home from './pages/Home'
-import CategoryPage from './pages/CategoryPage'
-import ProductDetail from './pages/ProductDetail'
-import SellPage from './pages/SellPage'
-import BuyPage from './pages/BuyPage'
-import LoginPage from './pages/LoginPage'
-import UserPage from './pages/UserPage'
-import SearchPage from './pages/SearchPage'
-import AdminPage from './pages/AdminPage'
-import StaffPage from './pages/StaffPage'
-import StaffLogin from './pages/StaffLogin'
-import NewsDetail from './pages/NewsDetail'
-import NotFound from './pages/NotFound'
-import NewsPage from './pages/NewsPage'
-import AdminLogin from './pages/AdminLogin'
-import Chat from './components/Chat'
-import SupporterPage from './pages/SupporterPage'
+const ProductDetail = React.lazy(() => import( './features/Product/pages/ProductDetail'))
+const SellPage = React.lazy(() => import( './features/Selling/pages/SellPage'))
+const BuyPage = React.lazy(() => import( './features/Buying/pages/BuyPage'))
+const LoginPage = React.lazy(() => import( './features/User/pages/LoginPage'))
+const UserPage = React.lazy(() => import( './features/User/pages/UserPage'))
+const SearchPage = React.lazy(() => import( './features/Product/pages/SearchPage'))
+const AdminPage = React.lazy(() => import( './features/Admin/pages/AdminPage'))
+const StaffPage = React.lazy(() => import( './features/Staff/pages/StaffPage'))
+const StaffLogin = React.lazy(() => import( './features/Staff/pages/StaffLogin'))
+const NewsDetail = React.lazy(() => import( './features/News/pages/NewsDetail'))
+const NotFound = React.lazy(() => import( './pages/NotFound'))
+const NewsPage = React.lazy(() => import( './features/News/pages/NewsPage'))
+const AdminLogin = React.lazy(() => import( './features/Admin/pages/AdminLogin'))
+const Chat = React.lazy(() => import( './components/Chat'))
+const SupporterPage = React.lazy(() => import( './features/Staff/pages/SupporterPage'))
 
-
+const CategoryPage = React.lazy(() => import('./features/Product/pages/CategoryPage'))
 const App = () => {
   const dispatch = useDispatch()
   const getUser = async () => {
@@ -52,23 +51,25 @@ const App = () => {
         <title>Authenticity: Sneakers, Streetwear</title>
       </Helmet>
       <div className="App">
-        <Route exact path="/" component={Home} />
-        <Switch>
-          <Route path="/products" component={CategoryPage} />
-          <ProtectedRoute path="/account" component={UserPage} />
-          <ProtectedRoute exact path="/sell/:slug" component={SellPage} />
-          <ProtectedRoute exact path="/buy/:slug" component={BuyPage} />
-          <AdminRoute path="/admin" component={AdminPage} />
-          <StaffRoute path="/staff" component={StaffPage} />
-          <StaffRoute path="/supporter" component={SupporterPage} />
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path='/staff-login' component={StaffLogin} />
-          <Route exact path='/admin-login' component={AdminLogin} />
-          <Route exact path="/search" component={SearchPage} />
-          <Route exact path="/news" component={NewsPage} />
-          <Route exact path="/:slug" component={ProductDetail} />
-          <Route exact path="/news/:slug" component={NewsDetail} />
-        </Switch>
+        <Suspense fallback={<FullSpinner />}>
+          <Route exact path="/" component={Home} />
+          <Switch>
+            <Route path="/products" component={CategoryPage} />
+            <ProtectedRoute path="/account" component={UserPage} />
+            <ProtectedRoute exact path="/sell/:slug" component={SellPage} />
+            <ProtectedRoute exact path="/buy/:slug" component={BuyPage} />
+            <AdminRoute path="/admin" component={AdminPage} />
+            <StaffRoute path="/staff" component={StaffPage} />
+            <StaffRoute path="/supporter" component={SupporterPage} />
+            <Route exact path="/login" component={LoginPage} />
+            <Route exact path='/staff-login' component={StaffLogin} />
+            <Route exact path='/admin-login' component={AdminLogin} />
+            <Route exact path="/search" component={SearchPage} />
+            <Route exact path="/news" component={NewsPage} />
+            <Route exact path="/:slug" component={ProductDetail} />
+            <Route exact path="/news/:slug" component={NewsDetail} />
+          </Switch>
+        </Suspense>
         <ToastContainer autoClose={2000} hideProgressBar={true} />
       </div>
       {/* <Chat /> */}

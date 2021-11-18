@@ -33,8 +33,8 @@ const adminApi = {
         const url = `/products/${productId}`
         return axiosClient.delete(url)
     },
-    getAllProducts: () => {
-        const url = '/admin/get-all-products'
+    getAllProducts: (keyword) => {
+        const url = `/admin/get-all-products?s=${keyword}`
         return axiosClient.get(url)
     },
     editProduct: (productId, productInfo) => {

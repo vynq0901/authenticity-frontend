@@ -24,7 +24,7 @@ const LatestNews = () => {
             {
                 newses.map(news => (
                     <Link to={`/news/${news.slug}`} className="flex border-solid border-b-2 border-gray-200 mb-4 pb-2" key={news._id}>
-                        <div className="flex-1 rounded-lg overflow-hidden mr-6 h-[120]">
+                        <div className="flex-1 rounded-lg overflow-hidden mr-6 h-[120px] ">
                             <img src={news.thumbnail} alt={news.slug} className="h-full w-full" />
                         </div>
                        <div className="w-[80%] flex flex-col justify-between">

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 //components
-import Product from './Product'
+import Product from '../features/Product/components/Product'
 
 const RecentlyViewed = ({currentProduct}) => {
     const [products, setProducts] = useState([])
