@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
-import {BiChat, BiSend } from "react-icons/bi"
+import {BiChat, BiSend, BiX } from "react-icons/bi"
 import ScrollToBottom from 'react-scroll-to-bottom'
 //io
-
 
 const Chat = () => {
     const [email, setEmail] = useState("")
@@ -38,7 +37,7 @@ const Chat = () => {
     }
     useEffect(() => {
         if (!socket) {
-            const st = io.connect('https://authenticity-bend.herokuapp.com')
+            const st = io.connect('http://localhost:5000')
             setSocket(st)
         }
        
@@ -64,9 +63,11 @@ const Chat = () => {
             }
             {
                 toggle && <div className="border-red-700 h-[300px] absolute border-2 w-[300px] top-[-280px] left-full bg-white rounded-lg">
+                        <BiX className="block ml-auto text-3xl text-gray-400 cursor-pointer" onClick={() => setToggle(!toggle)}/>
                         {
                         !connect && <>
                                             <div className="p-4">
+
                                                 <p className="text-base text-center font-medium my-4 bg-red-700 text-white py-2 rounded-lg">Chat với nhân viên hỗ trợ</p>
                                                 <div>
                                                     <p className="font-medium">Nhập email của bạn</p>
@@ -78,7 +79,7 @@ const Chat = () => {
                         }
                         {
                             connect && <div className="p-2 flex flex-col">
-                                            <ScrollToBottom  className="h-[250px] w-full overflow-auto">
+                                            <ScrollToBottom  className="h-[225px] w-full overflow-auto">
                                                 {
                                                     messages.length === 0 && <p className="text-center font-medium text-xs">Hãy để lại tin nhắn. Nhân viên sẽ phản hồi trong ít phút.</p>
                                                 }
@@ -91,7 +92,7 @@ const Chat = () => {
                                                                     </div>
                                                         } else {
                                                             return  <div className="text-xs font-medium text-right mb-2 break-all">
-                                                                        <p className="inline-block bg-gray-200 px-2 py-1 rounded-md mb-[2px]">{msg.message}</p>
+                                                                        <p className="inline-block bg-gray-200 px-2 py-1 rounded-md">{msg.message}</p>
                                                                         <p className="text-[10px] text-gray-400">{msg.time}</p>
                                                                     </div>
                                                         }

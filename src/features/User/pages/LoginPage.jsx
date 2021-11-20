@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
+import {motion} from 'framer-motion/dist/es/index'
 //component
 import SignUp from '../components/SignUp'
 import Login from '../components/Login'
@@ -10,7 +11,7 @@ const LoginPage = () => {
         setToggleActive(index)
     }
     return (
-        <div className="h-screen">
+        <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 1}} className="h-screen">
             <Link to="/" className="logo text-center block py-4 text-4xl border-b-[1px]">
                     <span className="main-logo-text">Authenti</span>
                     <span className="sub-logo-text">city</span>
@@ -25,7 +26,7 @@ const LoginPage = () => {
                     <Login toggleActive={toggleActive} onToggleActive={handleToggleActive}  />
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 

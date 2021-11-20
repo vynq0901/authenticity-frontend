@@ -12,7 +12,6 @@ import ProccessingOrders from '../components/ProccessingOrders'
 const StaffPage = () => {
     const currentUser = useSelector(state => state.userLogin?.userInfo)
     const dispatch = useDispatch()
-    const history = useHistory()
     const [user, setUser] = useState({})
 
     const handleLogout = () => {

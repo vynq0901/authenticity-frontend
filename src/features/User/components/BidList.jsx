@@ -60,11 +60,11 @@ const BidList = () => {
                bids.length !== 0 ? 
                <tbody>
                {
-                   bids.map((bid, index) => {
+                   bids.map(bid => {
                    return  <tr className="mb-2 border-b-[1px] w-full" key={bid.bidInfo.bidId}>
                                 <td className="p-2">
                                     <Link to={`/${bid.bidInfo.slug}`} className="flex items-center justify-between">
-                                        <div className="w-[30%] mr-2">
+                                        <div className="w-[30%] mr-3">
                                             <img src={bid.bidInfo.productImage} className="w-full" alt="product" />
                                         </div>
                                         <div className="flex-1">
