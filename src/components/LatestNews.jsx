@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import newsApi from '../api/newsApi'
-
+import { useTranslation } from 'react-i18next'
 const LatestNews = () => {
     const [newses, setNewses] = useState([])
+    const {t} = useTranslation()
     const getNewses = async () => {
         try {
             const response = await newsApi.getNewestNews()
@@ -18,8 +19,8 @@ const LatestNews = () => {
     return (
         <div className="col-span-5 my-10">
             <div className="flex justify-between mb-4">
-                <h2 className="font-semibold text-xl">Tin mới nhất</h2>
-                <Link to="/news" className="text-sm font-medium">Xem tất cả</Link>
+                <h2 className="font-semibold text-xl">{t("latestNews")}</h2>
+                <Link to="/news" className="text-sm font-medium">{t("seeAll")}</Link>
             </div>
             {
                 newses.map(news => (

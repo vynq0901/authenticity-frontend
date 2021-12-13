@@ -5,13 +5,14 @@ import useModal from '../../../hooks/useModal'
 import { toast } from 'react-toastify'
 //components
 import Modal from '../../../components/Modal'
+import Spinner from '../../../components/Spinner'
 
 const ProccessingOrders = ({typeOrder, title}) => {
     const {show, toggleModal} = useModal()
     const [modal, setModal] = useState('')
     const [orders, setOrders] = useState([])
     const [selectedOrder, setSelectedOrder] = useState({})
-
+    const [loading, setLoading] = useState(false)
     let updateStatus = ''
     if (typeOrder === 'incoming-orders') updateStatus = 'đã tiếp nhận'
     if (typeOrder === 'received-orders') updateStatus = 'đang kiểm tra'
@@ -40,31 +41,32 @@ const ProccessingOrders = ({typeOrder, title}) => {
         toggleModal()
     }
     const handleUpdateOrder = async () => {
+        setLoading(true)
         try {
             const response = await staffApi.updateOrder(selectedOrder._id, {status: updateStatus})
             toggleModal()
+            setLoading(false)
             toast.success("Cập nhật thành công !")
-            console.log(response)
             setOrders(orders.filter(ord => ord._id !==  response.order._id))
         } catch (error) {
-            console.log(error.response)
+            toast.error('Đã có lỗi xảy ra')
         }
     }
     const handleCancelOrder = async () => {
+        setLoading(true)
         try {
             const response = await staffApi.updateOrder(selectedOrder._id, {status: 'đã hủy'})
             toggleModal()
-           
+            setOrders(orders.filter(ord => ord._id !==  response.order._id))
+            setLoading(false)
             toast.success("Cập nhật thành công !")
          
         } catch (error) {
-            console.log(error.response)
+            toast.error('Đã có lỗi xảy ra')
         }
     }
     useEffect(() => {
-        getOrders()
-        console.log(typeOrder)
-       
+        getOrders() 
     }, [typeOrder])
     return (
         <div className="flex-1 mt-10 py-4 px-8">
@@ -116,8 +118,9 @@ const ProccessingOrders = ({typeOrder, title}) => {
                                                         </div>
                                                         <div className="flex justify-between">
                                                             <button className="border-[1px] font-semibold text-sm border-black px-4 py-1 bg-white w-[40%]" onClick={toggleModal}>Hủy</button>
-                                                            <button className="bg-red-700 font-semibold text-sm text-white px-4 py-1" onClick={handleUpdateOrder}>Cập nhật</button>
+                                                            <button className="bg-red-700 font-semibold text-sm min-w-[98px] text-white px-4 py-1" onClick={handleUpdateOrder}>{loading ? <Spinner borderColor={"border-white"} /> : <p>Cập nhật</p>}</button>
                                                         </div>
+                                                      
                                                     </Modal>
                         :
                                                     <Modal show={show}>
@@ -129,7 +132,7 @@ const ProccessingOrders = ({typeOrder, title}) => {
                                                         </div>
                                                         <div className="flex justify-between">
                                                             <button className="border-[1px] font-semibold text-sm border-black px-4 py-1 bg-white w-[40%]" onClick={toggleModal}>Hủy</button>
-                                                            <button className="bg-red-700 font-semibold text-sm text-white px-4 py-1" onClick={handleCancelOrder}>Hủy đơn</button>
+                                                            <button className="bg-red-700 font-semibold text-sm min-w-[90px] text-white px-4 py-1" onClick={handleCancelOrder}>{loading ? <Spinner borderColor={"border-white"} /> : <p>Hủy đơn</p>}</button>
                                                         </div>
                                                     </Modal>
                         }

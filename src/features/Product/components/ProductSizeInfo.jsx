@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import { VscChromeClose } from "react-icons/vsc"
 import productApi from '../../../api/productApi'
+import { useTranslation } from 'react-i18next'
 
 const ProductSizeInfo = ({product, size, onToggle, view}) => {
     const [data, setData] = useState([])
+    const {t} = useTranslation()
     const getAllBids = async () => {
         try {
             const response = await productApi.getAllBids(product, size)
@@ -49,18 +51,18 @@ const ProductSizeInfo = ({product, size, onToggle, view}) => {
                                             <div className="fixed animate-slide-left top-0 right-0 w-[400px] h-full z-50 bg-white z-[51] p-4">
                                             <div className="mb-4 flex justify-between">
                                                 <div>
-                                                    <h2 className="font-semibold">Các phiếu đấu giá</h2>
-                                                    <p className="text-sm text-gray-400">(Giá chưa bao gồm phí xử lý)</p>
+                                                    <h2 className="font-semibold">{t("allBids")}</h2>
+                                                    <p className="text-sm text-gray-400">{t("service")}</p>
                                                 </div>
                                                 <button onClick={onToggle}><VscChromeClose className="text-2xl"/></button>
                                             </div>
                                             <table>
                                                 <thead className="border-t-[2px] border-black border-b-[2px]">
                                                     <tr>
-                                                        <th className="w-[100px]">Size</th>
-                                                        <th className="w-[100px]">Giá</th>
-                                                        <th className="w-[100px]">Ngày</th>
-                                                        <th className="w-[100px]">Giờ</th>
+                                                        <th className="w-[100px]">{t("size")}</th>
+                                                        <th className="w-[100px]">{t("price")}</th>
+                                                        <th className="w-[100px]">{t("date")}</th>
+                                                        <th className="w-[100px]">{t("time")}</th>
                                                     </tr>
                                                 </thead>
                                                
@@ -78,7 +80,7 @@ const ProductSizeInfo = ({product, size, onToggle, view}) => {
                                                                     )) 
                                                                 }
                                                             </tbody> :
-                                                            <div className="absolute left-1/2 top-1/4 -translate-x-1/2 text-sm underline font-semibold capitalize">Không có dữ liệu</div>
+                                                            <div className="absolute left-1/2 top-1/4 -translate-x-1/2 text-sm underline font-semibold capitalize">{t("noData")}</div>
                                                    }
                                                
                                             </table>
@@ -92,18 +94,18 @@ const ProductSizeInfo = ({product, size, onToggle, view}) => {
                                         <div className="fixed animate-slide-left top-0 right-0 w-[400px] h-full z-50 bg-white z-[51] p-4">
                                         <div className="mb-4 flex justify-between">
                                             <div>
-                                                <h2 className="font-semibold">Tất cả giá bán</h2>
-                                                <p className="text-sm text-gray-400">(Giá chưa bao gồm phí xử lý)</p>
+                                                <h2 className="font-semibold">{t("allAsks")}</h2>
+                                                <p className="text-sm text-gray-400">{t("service")}</p>
                                             </div>
                                             <button onClick={onToggle}><VscChromeClose className="text-2xl"/></button>
                                         </div>
                                         <table>
                                             <thead className="border-t-[2px] border-black border-b-[2px]">
                                                 <tr>
-                                                    <th className="w-[100px]">Size</th>
-                                                    <th className="w-[100px]">Giá</th>
-                                                    <th className="w-[100px]">Ngày</th>
-                                                    <th className="w-[100px]">Giờ</th>
+                                                    <th className="w-[100px]">{t("size")}</th>
+                                                    <th className="w-[100px]">{t("price")}</th>
+                                                    <th className="w-[100px]">{t("date")}</th>
+                                                    <th className="w-[100px]">{t("time")}</th>
                                                 </tr>
                                             </thead>
                                             {
@@ -120,7 +122,7 @@ const ProductSizeInfo = ({product, size, onToggle, view}) => {
                                                                     )) 
                                                                 }
                                                             </tbody> :
-                                                            <div className="absolute left-1/2 top-1/4 -translate-x-1/2 text-sm underline font-semibold capitalize">Không có dữ liệu</div>
+                                                            <div className="absolute left-1/2 top-1/4 -translate-x-1/2 text-sm underline font-semibold capitalize">{t("noData")}</div>
                                             }
                                         </table>
                                     </div>
@@ -133,17 +135,17 @@ const ProductSizeInfo = ({product, size, onToggle, view}) => {
                                         <div className="fixed animate-slide-left top-0 right-0 w-[400px] h-full z-50 bg-white z-[51] p-4">
                                         <div className="mb-4 flex justify-between">
                                             <div>
-                                                <h2 className="font-semibold">Tất cả giá đã bán</h2>
-                                                <p className="text-sm text-gray-400">(Giá chưa bao gồm phí xử lý)</p>
+                                                <h2 className="font-semibold">{t("allSales")}</h2>
+                                                <p className="text-sm text-gray-400">{t("service")}</p>
                                             </div>
                                             <button onClick={onToggle}><VscChromeClose className="text-2xl"/></button>
                                         </div>
                                         <table>
                                             <thead className="border-t-[2px] border-black border-b-[2px]">
                                                 <tr>
-                                                    <th className="w-[130px]">Size</th>
-                                                    <th className="w-[130px]">Giá</th>
-                                                    <th className="w-[130px]">Ngày</th>
+                                                    <th className="w-[130px]">{t("size")}</th>
+                                                    <th className="w-[130px]">{t("price")}</th>
+                                                    <th className="w-[130px]">{t("date")}</th>
                                                 </tr>
                                             </thead>
                                             {
@@ -160,7 +162,7 @@ const ProductSizeInfo = ({product, size, onToggle, view}) => {
                                                                     )) 
                                                                 }
                                                             </tbody> :
-                                                            <div className="absolute left-1/2 top-1/4 -translate-x-1/2 text-sm underline font-semibold capitalize">Không có dữ liệu</div>
+                                                            <div className="absolute left-1/2 top-1/4 -translate-x-1/2 text-sm underline font-semibold capitalize">{t("noData")}</div>
                                             }
                                         </table>
                                     </div>

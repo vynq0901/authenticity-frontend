@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component'
+
 import { Link, useHistory } from 'react-router-dom'
 import { FaSearch } from 'react-icons/fa'
 import productApi from '../api/productApi'
+import { useTranslation } from 'react-i18next'
 
 const SearchBar = ({home}) => {
     const history = useHistory()
+    const {t} = useTranslation()
     const [keyword, setKeyword] = useState('')
     const [results, setResults] = useState([])
     const [hide, setHide] = useState(true)
@@ -53,7 +55,7 @@ const SearchBar = ({home}) => {
                 <div className="text-lg mr-4 cursor-pointer" onClick={handleSearchClick}>
                     <FaSearch />
                 </div>
-                <input className="text-sm border-none outline-none w-96" placeholder="Tìm kiếm" type="text" onChange={handleKeywordChange} onKeyDown={handleEnter} onFocus={() => handleHideList(false)} />
+                <input className="text-sm border-none outline-none w-96" placeholder={t("searchbar")} type="text" onChange={handleKeywordChange} onKeyDown={handleEnter} onFocus={() => handleHideList(false)} />
             </div>
             <div className={"absolute bg-white z-50 text-black  w-full shadow-lg max-h-[200px] overflow-y-auto " + (hide ? "hidden" : "")}>
             {

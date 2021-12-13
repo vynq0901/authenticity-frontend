@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { VscTriangleDown, VscTriangleUp } from "react-icons/vsc"
-
+import { useTranslation } from 'react-i18next'
 import productApi from '../../../api/productApi'
 //component
 import SizeOptions from './SizeOptions'
@@ -19,7 +19,8 @@ const BuySellContainer = ({slug, loading}) => {
     const [currentAsk, setCurrentAsk] = useState({})
     const [currentBid, setCurrentBid] = useState({})
     const [toggle, setToggle] = useState(false)
-    
+    const {t} = useTranslation()
+
     const handleChangeSize = (size) => {
         const ask = asks.find(a => a._id === size)
         const bid = bids.find(b => b._id === size)
@@ -97,12 +98,12 @@ const BuySellContainer = ({slug, loading}) => {
            
             <div className="flex items-center mb-3">
                 <Link to={`/buy/${slug}?size=${currentSize}`} className="bg-red-600 rounded-lg text-white py-2 px-8 text-center mr-5">
-                    <p className="font-bold tracking-tight leading-3">Mua</p>
-                    <p className="text-[10px] my-[2px]">hoặc</p>
-                    <p className="text-[12px] leading-3 font-semibold tracking-tight">Đấu Giá</p>
+                    <p className="font-bold tracking-tight leading-3">{t("productDetail.buyOrBid.1")}</p>
+                    <p className="text-[10px] my-[2px]">{t("productDetail.buyOrBid.2")}</p>
+                    <p className="text-[12px] leading-3 font-semibold tracking-tight">{t("productDetail.buyOrBid.3")}</p>
                 </Link>
                 <div>
-                    <p className="text-gray-500 text-xs">Giá thấp nhất</p>
+                    <p className="text-gray-500 text-xs">{t("productDetail.lowestAsk")}</p>
                     <p className="font-semibold text-xl">{currentAsk?.lowestPrice ? `$${currentAsk.lowestPrice}` : '--' }</p>
                 </div>
             </div>
@@ -111,19 +112,19 @@ const BuySellContainer = ({slug, loading}) => {
 
             <div className="flex items-center">
                 <Link to={`/sell/${slug}?size=${currentSize}`} className="bg-green-700 rounded-lg text-white py-2 px-9 text-center mr-5">
-                    <p className="font-bold leading-3 tracking-tight">Bán</p>
-                    <p className="text-[10px] my-[2px]">hoặc</p>
-                    <p className="text-[12px] leading-3 font-semibold tracking-tight">Ra Giá</p>
+                    <p className="font-bold leading-3 tracking-tight">{t("productDetail.sellOrAsk.1")}</p>
+                    <p className="text-[10px] my-[2px]">{t("productDetail.sellOrAsk.2")}</p>
+                    <p className="text-[12px] leading-3 font-semibold tracking-tight">{t("productDetail.sellOrAsk.3")}</p>
                 </Link>
                 <div>
-                    <p className="text-gray-500 text-xs">Giá trả cao nhất</p>
+                    <p className="text-gray-500 text-xs">{t("productDetail.highestBid")}</p>
                     <p className="font-semibold text-xl">{currentBid?.highestPrice ? `$${currentBid.highestPrice}` : '--' }</p>
                 </div>
             </div>
         </div>
         <div className="mt-2 flex justify-between items-center">
             <div className="mr-1">
-                <p className="text-xs font-semibold">Giá bán gần nhất: </p>
+                <p className="text-xs font-semibold">{t("productDetail.latestSale")}: </p>
                 <p className="text-base font-semibold">$ {lastSale?.price ? lastSale?.price : '--'}</p>
                 {
                   lastSale?.increase === false ?
@@ -140,9 +141,9 @@ const BuySellContainer = ({slug, loading}) => {
                     </div>
                 }
             </div>
-            <button className="text-[11px] font-medium bg-black text-white h-[fit-content] border-[1px] border-black p-1 rounded-sm hover:bg-white hover:text-black" onClick={() => handleView('bid')}>Tất cả đấu giá</button>
-            <button className="text-[11px] font-medium bg-black text-white h-[fit-content] border-[1px] border-black p-1 rounded-sm hover:bg-white hover:text-black" onClick={() => handleView('ask')}>Tất cả giá bán</button>
-            <button className="text-[11px] font-medium bg-black text-white h-[fit-content] border-[1px] border-black p-1 rounded-sm hover:bg-white hover:text-black" onClick={() => handleView('sale')}>Tất cả lần bán</button>
+            <button className="text-[11px] min-w-[85px] font-medium bg-black text-white h-[fit-content] border-[1px] border-black p-1 rounded-sm hover:bg-white hover:text-black" onClick={() => handleView('bid')}>{t("productDetail.allSale")}</button>
+            <button className="text-[11px] min-w-[85px] font-medium bg-black text-white h-[fit-content] border-[1px] border-black p-1 rounded-sm hover:bg-white hover:text-black" onClick={() => handleView('ask')}>{t("productDetail.allAsks")}</button>
+            <button className="text-[11px] min-w-[85px] font-medium bg-black text-white h-[fit-content] border-[1px] border-black p-1 rounded-sm hover:bg-white hover:text-black" onClick={() => handleView('sale')}>{t("productDetail.allBids")}</button>
         </div>
         {
             toggle && <ProductSizeInfo onToggle={handleToggle} product={product._id} size={currentSize} view={view} />

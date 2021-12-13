@@ -4,9 +4,12 @@ import newsApi from '../../../api/newsApi'
 import Navbar from '../../../components/Navbar'
 import NewsBanner from '../../../assets/images/newscate.jpg'
 import Skeleton from 'react-loading-skeleton'
+import { useTranslation } from 'react-i18next'
+
 const NewsPage = () => {
     const [newses, setNewses] = useState([])
     const [loading, setLoading] = useState(true)
+    const {t} = useTranslation()
     const getAllNews = async () => {
         setLoading(true)
         try {
@@ -25,10 +28,10 @@ const NewsPage = () => {
         <div>
             <Navbar />
                 <div style={{backgroundImage: `url(${NewsBanner})`}} className="min-h-[280px] mt-14 px-12 mx-auto pt-20 pb-12 bg-cover bg-center">
-                    <h1 className="text-5xl font-semibold mb-6 text-white">Tổng hợp tin tức <br /> Sneakers - Streewear</h1>
+                    <h1 className="text-5xl font-semibold mb-6 text-white">{t("news.banner")} <br /> Sneakers - Streewear</h1>
                 </div>
             <div className="max-w-[1100px] mx-auto">
-                <h1 className="text-xl text-gray-400 capitalize my-[50px]">Nắm bắt những thông tin Trending</h1>
+                <h1 className="text-xl text-gray-400 capitalize my-[50px]">{t("news.title")} </h1>
                 <div>
                     {
                         !loading ? 

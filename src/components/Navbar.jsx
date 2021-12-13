@@ -2,12 +2,14 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../redux/actions/authActions'
+import { useTranslation } from 'react-i18next'
 //component
 import SearchBar from './SearchBar'
 
 const Navbar = ({navbar, navlist ,logo, subLogo, home}) => {
      const user = useSelector(state => state.userLogin.userInfo)
      const dispatch = useDispatch()
+     const {t, i18n} = useTranslation()
      const handleLogout = () => {
          dispatch(logout())
          localStorage.removeItem('token')
@@ -33,27 +35,27 @@ const Navbar = ({navbar, navlist ,logo, subLogo, home}) => {
             }
             <div className={`flex justify-between items-center font-medium text-sm ${navlist}`}>
                 <Link to="/">
-                    <span className="ml-5">Trang chủ</span>
+                    <span className="ml-5">{t('navbar.1')}</span>
                 </Link>
                 <Link to="/products">
-                    <span className="ml-5">Sản phẩm</span>
+                    <span className="ml-5">{t('navbar.2')}</span>
                 </Link >
                 <Link to="/news">
-                    <span className="ml-5">Tin tức</span>
+                    <span className="ml-5">{t('navbar.3')}</span>
                 </Link>
                 {
                     user 
                     ? [
                     <Link to="/account/info">
-                        <span className="ml-5">Tài khoản</span>
+                        <span className="ml-5">{t('navbar.6')}</span>
                     </Link>,
                     <Link to="/">
-                        <span className={"ml-5 rounded-3xl"} onClick={handleLogout}>Đăng xuất</span>
+                        <span className={"ml-5 rounded-3xl"} onClick={handleLogout}>{t('navbar.5')}</span>
                     </Link>
                     ]
                     : 
                     <Link to="/login">
-                        <span className="ml-5">Đăng kí / Đăng nhập</span>
+                        <span className="ml-5">{t('navbar.4')}</span>
                     </Link> 
                 }
                 

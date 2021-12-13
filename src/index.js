@@ -5,6 +5,7 @@ import './index.css'
 import App from './App'
 import store from './redux/store'
 import { Provider } from 'react-redux'
+import './i18n'
 import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(

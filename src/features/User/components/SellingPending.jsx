@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import portfolioApi from '../../../api/portfolioApi'
 
 const SellingPending = () => {
     const user = useSelector(state => state.userLogin.userInfo)
-    const [orders, setOrders] = useState([])
-    const getAsks = async () => {
+    const [orders, setOrders] = useState([])  
+    const getAsks = useCallback(async () => {
         try {
             const response = await portfolioApi.getAskingPending(user.id)
             setOrders(response.data.orders)
         } catch (error) {
             
         }
-    }
+    }, [user.id])
     useEffect(() => {
         getAsks()
-    }, [])
+    }, [getAsks])
 
     return (
         <div className="mt-8">

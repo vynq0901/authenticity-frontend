@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
-
+import { useTranslation } from 'react-i18next'
 
 const categories = ['sneakers', 'streetwear']
 const brands = ['nike', 'adidas', 'jordan', 'vans', 'supreme']
 
 const Filter = ({filters, onFiltersChange}) => {
-
+    const {t} = useTranslation()
     const handleCategoryChange = (category) => {
         delete filters.brand
         onFiltersChange({
@@ -26,7 +26,7 @@ const Filter = ({filters, onFiltersChange}) => {
     return (
         <div className="col-span-2 text-sm font-semibold">
             <div className="mb-8">
-                <p className="mb-3 underline">DANH MỤC</p>
+                <p className="mb-3 underline uppercase">{t("filter.1")}</p>
                 <ul>
                     {
                         categories.map((category, index) => <li key={index}
@@ -41,7 +41,7 @@ const Filter = ({filters, onFiltersChange}) => {
                 </ul> 
             </div>
             <div>
-                <p className="mb-3 underline">THƯƠNG HIỆU</p>
+                <p className="mb-3 underline uppercase">{t("filter.2")}</p>
                 <ul>
                     {
                       brands.map((brand, index) => <li 

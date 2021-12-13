@@ -26,7 +26,6 @@ const ProductContainer = ({filters, onFiltersChange}) => {
             
             setLoading(false)
         } catch (error) {
-            console.log('Somethings wrong:', error)
             setLoading(false)
         }
     }
@@ -39,8 +38,7 @@ const ProductContainer = ({filters, onFiltersChange}) => {
         })
     }
    
-    useEffect(() => {
-     
+    useEffect(() => {   
         getProducts()
     }, [filters])
     return (
@@ -116,7 +114,7 @@ const ProductContainer = ({filters, onFiltersChange}) => {
                     </>
                  }
                  {
-                     products.length !== 0 && <Pagination onPageChange={handlePageChange} pagination={pagination}/>   
+                   products.lenght !== 0 && <Pagination onPageChange={handlePageChange} pagination={pagination}/>   
                  }
              </div>
              

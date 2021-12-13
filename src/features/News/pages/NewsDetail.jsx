@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import newsApi from '../../../api/newsApi'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 //components
 import Navbar from '../../../components/Navbar'
 import CommentsSection from '../components/CommentsSection'
@@ -10,6 +11,7 @@ import Skeleton from 'react-loading-skeleton'
 const NewsDetail = () => {
     const [news, setNews] = useState({})
     const [comments, setComments] = useState([])
+    const {t} = useTranslation()
     const [otherNews, setOtherNews] = useState([])
     const [scroll, setScroll] = useState(false)
     const [loading, setLoading] = useState(true)

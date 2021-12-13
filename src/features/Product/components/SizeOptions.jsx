@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import {HiChevronDown, HiChevronUp} from 'react-icons/hi'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
 const SizeOptions = ({handleChangeSize, currentSize}) => {
+    const {t} = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
     const currentProduct = useSelector(state => state.currentProductDetail.productDetail)
     const asks = useSelector(state => state.currentProductDetail.productDetail?.lowestAsks)
@@ -49,8 +51,8 @@ const SizeOptions = ({handleChangeSize, currentSize}) => {
             </div>
             <div className={"absolute w-full p-2  z-50 bg-white left-0 top-10 border-[1px] " + (!isOpen && "hidden")}>
                     <div className="flex justify-between text-xs font-semibold">
-                        <span>Chọn size </span>
-                        <span>Bảng size</span>
+                        <span>{t("productDetail.chooseSize")} </span>
+                        <span>{t("productDetail.sizeChart")}</span>
                     </div>
                     <ul className="mt-2 text-xs max-h-[300px] overflow-auto none">
                         {

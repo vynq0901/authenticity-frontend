@@ -13,6 +13,7 @@ import StaffRoute from './routes/StaffRoute'
 import AdminRoute from './routes/AdminRoute'
 //pages
 import Home from './pages/Home'
+import TranslateButton from './features/Translation/components/TranslateButton'
 const ProductDetail = React.lazy(() => import( './features/Product/pages/ProductDetail'))
 const SellPage = React.lazy(() => import( './features/Selling/pages/SellPage'))
 const BuyPage = React.lazy(() => import( './features/Buying/pages/BuyPage'))
@@ -26,10 +27,10 @@ const NewsDetail = React.lazy(() => import( './features/News/pages/NewsDetail'))
 const NotFound = React.lazy(() => import( './pages/NotFound'))
 const NewsPage = React.lazy(() => import( './features/News/pages/NewsPage'))
 const AdminLogin = React.lazy(() => import( './features/Admin/pages/AdminLogin'))
-const Chat = React.lazy(() => import( './components/Chat'))
 const SupporterPage = React.lazy(() => import( './features/Staff/pages/SupporterPage'))
-
 const CategoryPage = React.lazy(() => import('./features/Product/pages/CategoryPage'))
+
+
 const App = () => {
   const dispatch = useDispatch()
   const getUser = async () => {
@@ -68,11 +69,14 @@ const App = () => {
             <Route exact path="/news" component={NewsPage} />
             <Route exact path="/:slug" component={ProductDetail} />
             <Route exact path="/news/:slug" component={NewsDetail} />
+        
           </Switch>
         </Suspense>
         <ToastContainer autoClose={2000} hideProgressBar={true} />
+
       </div>
       {/* <Chat /> */}
+      <TranslateButton />
    </>
   )
 }

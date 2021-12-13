@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import { useTranslation } from 'react-i18next'
 import jordan from '../assets/images/jordan.jpg'
 import supreme from '../assets/images/supreme.jpg'
 import yeezy from '../assets/images/yeezy.jpg'
@@ -12,11 +12,12 @@ import nike from '../assets/images/nike.jpg'
 import dunk from '../assets/images/dunk.jpg'
 import adidas from '../assets/images/adidas.png'
 const PopularBrand = () => {
+    const {t} = useTranslation() 
     return (
         <div className="mt-7">
             <div className="w-full flex justify-between items-center">
-                <span className="text-lg font-semibold">Thương hiệu nổi tiếng</span>
-                <Link to="/products" className="text-sm font-medium">Xem tất cả</Link>
+                <span className="text-lg font-semibold">{t("popular")}</span>
+                <Link to="/products" className="text-sm font-medium">{t("seeAll")}</Link>
             </div>
             <div className="grid grid-cols-4 gap-4">
                 <Link to="/products?brand=jordan" className="relative cursor-pointer">

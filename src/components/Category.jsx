@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import productApi from '../api/productApi'
-
+import { useTranslation } from 'react-i18next'
 import Skeleton from 'react-loading-skeleton'
 //components
 import Product from '../features/Product/components/Product'
 
 const Category = ({title, link, recent, category}) => {
+    const {t} = useTranslation()
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const getProducts = async () => {
@@ -45,13 +46,13 @@ const Category = ({title, link, recent, category}) => {
     useEffect(() => {
         getProducts()
        
-    }, [])
+    }, [getProducts])
     return (
         <div className="w-full mt-5">
             <div className="w-full flex justify-between items-center">
                 <span className="text-lg font-semibold">{title}</span>
                 {
-                    !recent && <Link to={link} className="text-sm font-medium">Xem tất cả</Link>
+                    !recent && <Link to={link} className="text-sm font-medium">{t("seeAll")}</Link>
                 }
             </div>
             <div className="grid grid-cols-5 gap-4">

@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import {BiChat, BiSend, BiX } from "react-icons/bi"
 import ScrollToBottom from 'react-scroll-to-bottom'
+import { useTranslation } from 'react-i18next'
 //io
 
 const Chat = () => {
+    const {t} = useTranslation()
     const [email, setEmail] = useState("")
     const [toggle, setToggle] = useState(false)
     const [socket, setSocket] = useState(null)
     const [connect, setConnect] = useState(false)
     const [currentMessage, setCurrentMessage] = useState("")
+    const [noti, setNoti] = useState(false)
     const [messages, setMessages] = useState([]) 
     const joinRoom = () => {
         if (email !== "") {
@@ -35,9 +38,14 @@ const Chat = () => {
     const handleEnter = (event) => {
         if (event.key === 'Enter') sendMessage()
     }
+    const handleChatOpen = (event) => {
+        setToggle(!toggle)
+        setNoti(false)
+    }
     useEffect(() => {
         if (!socket) {
-            const st = io.connect('https://authenticity-bend.herokuapp.com')
+            // const st = io.connect('https://authenticity-bend.herokuapp.com')
+            const st = io.connect('http://localhost:5000')
             setSocket(st)
         }
        
@@ -45,7 +53,11 @@ const Chat = () => {
     useEffect(() => {
         if (socket) {
             socket.on('receive_message', (data) => {
-                console.log(data)
+               if (toggle === false) {
+                setNoti(true)
+               } else {
+                   setNoti(false)
+               }
                setMessages([...messages, {
                     isAdmin: true,
                     message: data.message,
@@ -57,8 +69,9 @@ const Chat = () => {
     return (
         <div className="fixed z-50  bottom-[100px] left-[40px]" >
             {
-                !toggle &&    <div className="p-3 rounded-full bg-red-700 cursor-pointer" onClick={() => setToggle(!toggle)}>
+                !toggle &&    <div className="p-3 rounded-full bg-red-700 cursor-pointer" onClick={handleChatOpen}>
                 <BiChat className="text-white text-2xl" />
+         
                 </div>
             }
             {
@@ -68,11 +81,11 @@ const Chat = () => {
                         !connect && <>
                                             <div className="p-4">
 
-                                                <p className="text-base text-center font-medium my-4 bg-red-700 text-white py-2 rounded-lg">Chat với nhân viên hỗ trợ</p>
+                                                <p className="text-base text-center font-medium my-4 bg-red-700 text-white py-2 rounded-lg">{t("chat.1")}</p>
                                                 <div>
-                                                    <p className="font-medium">Nhập email của bạn</p>
+                                                    <p className="font-medium">{t("chat.2")}</p>
                                                     <input className="p-2 text-sm border-[1px] border-gray-200 w-full my-4" placeholder="Email" onChange={(event) => setEmail(event.target.value)} />                                                              
-                                                    <button className="text-sm font-medium block mx-auto bg-red-700 text-white p-2 rounded-lg" onClick={joinRoom}>Bắt đầu chat</button>
+                                                    <button className="text-sm font-medium block mx-auto bg-red-700 text-white p-2 rounded-lg" onClick={joinRoom}>{t("chat.3")}</button>
                                                 </div>
                                             </div>
                                         </>
@@ -81,7 +94,7 @@ const Chat = () => {
                             connect && <div className="p-2 flex flex-col">
                                             <ScrollToBottom  className="h-[225px] w-full overflow-auto">
                                                 {
-                                                    messages.length === 0 && <p className="text-center font-medium text-xs">Hãy để lại tin nhắn. Nhân viên sẽ phản hồi trong ít phút.</p>
+                                                    messages.length === 0 && <p className="text-center font-medium text-xs">{t("chat.4")}</p>
                                                 }
                                                 {
                                                      messages.map(msg => {

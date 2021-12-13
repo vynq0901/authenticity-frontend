@@ -10,15 +10,6 @@ const CategoriesBar = () => {
                 <Link to="/products?category=streetwear">
                     <span className="mr-7">Streetwear</span>
                 </Link>
-                <Link to="/">
-                    <span className="mr-7">Túi xách</span>
-                </Link>
-                <Link to="/">
-                    <span className="mr-7">Đồng hồ</span>
-                </Link>
-                <Link to="/">
-                    <span className="mr-7">Đồ sưu tầm</span>
-                </Link>
             </div>
         </div>
     )

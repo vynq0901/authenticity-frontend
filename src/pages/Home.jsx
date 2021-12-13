@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../redux/actions/authActions'
 import {Helmet} from 'react-helmet'
+
 //components
 import Navbar from '../components/Navbar'
 import Banner from '../components/Banner'
@@ -16,6 +17,7 @@ import LatestNews from '../components/LatestNews'
 const Home = () => {
     const user = useSelector(state => state.userLogin.userInfo)
     const dispatch = useDispatch()
+    
     const [navBarTrans, setNavBarTrans] = useState('border-none bg-transparent')
     const [navListWhite, setNavListWhite] = useState('text-white')
     const [logoWhite, setLogoWhite] = useState('text-white')
@@ -49,14 +51,15 @@ const Home = () => {
                 localStorage.removeItem('token')
             }
         }
-    }, [user])
-
+    }, [user, dispatch])
+   
     return (
         <> 
             <Helmet>
                 <title>Trang chủ | Authenticity</title>
             </Helmet>
             <div className="homepage">
+              
                 <Navbar navbar={navBarTrans} navlist={navListWhite} logo={logoWhite} subLogo={subLogoWhite} home={true} />
                 <Banner home={true}/>
                 <CategoriesBar />
@@ -69,6 +72,7 @@ const Home = () => {
                     </div>
                 </div>
                 <Footer />
+                
             </div>
         </>
     )

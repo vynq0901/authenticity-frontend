@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import portfolioApi from '../../../api/portfolioApi'
@@ -6,7 +6,7 @@ import portfolioApi from '../../../api/portfolioApi'
 const SellingHistory = () => {
     const user = useSelector(state => state.userLogin.userInfo)
     const [orders, setOrders] = useState([])
-    const getOrders = async () => {
+    const getOrders = useCallback( async () => {
         try {
             const response = await portfolioApi.getAskingHistory(user.id)
             console.log(response.data.orders)
@@ -14,10 +14,10 @@ const SellingHistory = () => {
         } catch (error) {
             
         }
-    }
+    }, [user.id])
     useEffect(() => {
         getOrders()
-    }, [])
+    }, [getOrders])
 
     return (
         <div className="mt-8">
